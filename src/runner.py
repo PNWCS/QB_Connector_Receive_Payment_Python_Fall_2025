@@ -12,8 +12,15 @@ from .reporting import iso_timestamp, write_report
 DEFAULT_REPORT_NAME = "customer_payment_terms_report.json"
 
 
-def _term_to_dict(term: CustomerReceivePaymentTerms) -> Dict[str, str]:
-    return {"record_id": term.child_id, "name": term.customer, "source": term.source}
+def _term_to_dict(term: CustomerReceivePaymentTerms):
+    return {
+        "record_id": term.child_id,
+        "customer_name": term.customer,
+        "amount": term.amount,
+        "invoice_number": term.invoice_number,
+        "date": term.date,
+        "source": term.source,
+    }
 
 
 def _conflict_to_dict(conflict: Conflict) -> Dict[str, object]:
@@ -21,6 +28,12 @@ def _conflict_to_dict(conflict: Conflict) -> Dict[str, object]:
         "record_id": conflict.record_id,
         "excel_name": conflict.excel_name,
         "qb_name": conflict.qb_name,
+        "excel_amount": conflict.excel_amount,
+        "qb_amount": conflict.qb_amount,
+        "excel_date": conflict.excel_date,
+        "qb_date": conflict.qb_date,
+        "excel_invoice_number": conflict.excel_invoice_number,
+        "qb_invoice_number": conflict.qb_invoice_number,
         "reason": conflict.reason,
     }
 
@@ -30,6 +43,12 @@ def _missing_in_excel_conflict(term: CustomerReceivePaymentTerms) -> Dict[str, o
         "record_id": term.child_id,
         "excel_name": None,
         "qb_name": term.customer,
+        "excel_amount": None,
+        "qb_amount": term.amount,
+        "excel_date": None,
+        "qb_date": term.date,
+        "excel_invoice_number": None,
+        "qb_invoice_number": term.invoice_number,
         "reason": "missing_in_excel",
     }
 
@@ -58,21 +77,30 @@ def run_payment_terms(
     report_payload: Dict[str, object] = {
         "status": "success",
         "generated_at": iso_timestamp(),
-        "added_terms": [],
+        "same_payments": [],
+        "added_payments": [],
         "conflicts": [],
         "error": None,
     }
 
     try:
-        excel_terms = excel_reader.read_CustomerReceivePaymentTerms_from_excel(Path(workbook_path))
+        excel_terms = excel_reader.read_CustomerReceivePaymentTerms_from_excel(
+            Path(workbook_path)
+        )
         qb_terms = qb_gateway.fetch_payment_terms(company_file_path)
+        l1 = {item.child_id for item in excel_terms}
+        l2 = {item.child_id for item in qb_terms}
+        common = l1.intersection(l2)
+        print("count", len(common))
         comparison = comparer.compare_payment_terms(excel_terms, qb_terms)
         print(comparison)
 
         added_terms = []
         errors = []
-        try:    
-            added_terms = qb_gateway.add_payment_term(company_file_path, comparison.excel_only)
+        try:
+            added_terms = qb_gateway.add_payment_term(
+                company_file_path, comparison.excel_only
+            )
         except Exception as e:
             errors.append(e)
         # for i, term in enumerate(comparison.excel_only, start=1):
@@ -82,8 +110,6 @@ def run_payment_terms(
         #     except Exception as e:
         #         errors.append((i, term, e))
 
-        
-
         conflicts: List[Dict[str, object]] = []
         conflicts.extend(
             _conflict_to_dict(conflict) for conflict in comparison.conflicts
@@ -91,8 +117,8 @@ def run_payment_terms(
         conflicts.extend(
             _missing_in_excel_conflict(term) for term in comparison.qb_only
         )
-
-        report_payload["added_terms"] = [_term_to_dict(term) for term in added_terms]
+        report_payload["same_payments"] = len(common)
+        report_payload["added_payments"] = [_term_to_dict(term) for term in added_terms]
         report_payload["conflicts"] = conflicts
     except Exception as exc:  # pragma: no cover - behaviour verified via tests
         report_payload["status"] = "error"

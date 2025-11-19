@@ -2,5 +2,3 @@ __pycache__/
 **/__pycache__/
 dist/
 build/
-src/test.py
-src/updated.py

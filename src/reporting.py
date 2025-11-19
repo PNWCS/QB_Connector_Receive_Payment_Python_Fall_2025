@@ -10,7 +10,6 @@ def write_report(payload: Dict[str, Any], output_path: Path) -> Path:
     The file is encoded as UTF-8 with an indent of two spaces. The payload is
     returned unchanged to ease chaining in higher-level functions.
     """
-
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", encoding="utf-8") as handle:
         json.dump(payload, handle, indent=2)

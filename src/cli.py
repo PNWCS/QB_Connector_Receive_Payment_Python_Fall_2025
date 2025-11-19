@@ -5,7 +5,8 @@ from __future__ import annotations
 import argparse
 import sys
 
-from src.runner import run_payment_terms
+from .runner import run_payment_terms
+
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
