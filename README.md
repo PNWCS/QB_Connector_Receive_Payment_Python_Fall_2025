@@ -28,8 +28,11 @@ Run
 poetry run pytest
 ```
 
-## Build
+## RUN
 poetry run python -m src.cli --workbook company_data.xlsx
 
-# EXE
+# BUILD EXE
 poetry run pyinstaller --onefile --name payment_terms_cli --hidden-import win32timezone --hidden-import win32com.client build_exe.py
+
+# RUN EXE
+payment_terms_cli.exe --workbook company_data.xlsx
