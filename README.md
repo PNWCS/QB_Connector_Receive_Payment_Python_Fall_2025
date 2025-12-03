@@ -22,11 +22,7 @@ To manually run ruff check and auto fix:
 poetry run ruff check --fix
 ```
 
-## Test
-Run
-```bash
-poetry run pytest
-```
+## Execution
 
 Run
 ```bash
