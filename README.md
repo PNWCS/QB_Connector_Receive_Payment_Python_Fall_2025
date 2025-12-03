@@ -41,27 +41,27 @@ payment_terms_cli.exe --workbook company_data.xlsx
 # Example JSON
 
 {
-  "status": "success",
-  "generated_at": "2025-12-03T19:03:24.720086+00:00",
-  "same_payments": 12,
-  "added_payments": [
-  {
-      "record_id": 7535,
-      "customer_name": "Test1",
-      "amount": 946.11,
-      "invoice_number": "23-0305",
-      "date": "2024-05-10",
-      "source": "excel"
-    },
-    {
-      "record_id": 7529,
-      "customer_name": "Test1",
-      "amount": 1882.26,
-      "invoice_number": "23-0305",
-      "date": "2024-05-03",
-      "source": "excel"
-    }
-  ],
+"status": "success",
+"generated_at": "2025-12-03T19:03:24.720086+00:00",
+"same_payments": 12,
+"added_payments": [
+{
+"record_id": 7535,
+"customer_name": "Test1",
+"amount": 946.11,
+"invoice_number": "23-0305",
+"date": "2024-05-10",
+"source": "excel"
+},
+{
+"record_id": 7529,
+"customer_name": "Test1",
+"amount": 1882.26,
+"invoice_number": "23-0305",
+"date": "2024-05-03",
+"source": "excel"
+}
+],
   "conflicts": [
     {
       "record_id": 7536,
