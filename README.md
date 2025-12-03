@@ -28,18 +28,21 @@ Run
 poetry run pytest
 ```
 
-## Run
+Run
+```bash
 poetry run python -m src.cli --workbook company_data.xlsx
-
-# Build Exe
+```
+Build Exe
+```bash
 poetry run pyinstaller --onefile --name payment_terms_cli --hidden-import win32timezone --hidden-import win32com.client build_exe.py
-
-# Run Exe
+```
+Run Exe
+```bash
 payment_terms_cli.exe --workbook company_data.xlsx
+```
 
-
-# Example JSON
-
+Example JSON
+```bash
 {
 "status": "success",
 "generated_at": "2025-12-03T19:03:24.720086+00:00",
@@ -90,3 +93,4 @@ payment_terms_cli.exe --workbook company_data.xlsx
   ],
   "error": null
 }
+```
