@@ -1,4 +1,4 @@
-# Receive Payment Connector 
+# Receive Payment Connector
 
 ## Setup Project
 Once you forked and cloned the repo, run:
@@ -29,4 +29,7 @@ poetry run pytest
 ```
 
 ## Build
-To be filled by student. The CLI project needs to be built as an .exe file.
+poetry run python -m src.cli --workbook company_data.xlsx
+
+# EXE
+poetry run pyinstaller --onefile --name payment_terms_cli --hidden-import win32timezone --hidden-import win32com.client build_exe.py

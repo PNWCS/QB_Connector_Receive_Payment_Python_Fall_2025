@@ -1,0 +1,33 @@
+{
+  "status": "success",
+  "generated_at": "2025-12-01T19:31:04.580828+00:00",
+  "same_payments": 14,
+  "added_payments": [],
+  "conflicts": [
+    {
+      "record_id": 7536,
+      "excel_name": "NBT Group LTD",
+      "qb_name": "NBT Group LTD",
+      "excel_amount": 936.15,
+      "qb_amount": 936.16,
+      "excel_date": "2024-05-10",
+      "qb_date": "2024-05-11",
+      "excel_invoice_number": "23-0401",
+      "qb_invoice_number": "23-0401",
+      "reason": "data_mismatch"
+    },
+    {
+      "record_id": 12345678,
+      "excel_name": null,
+      "qb_name": "Test3",
+      "excel_amount": null,
+      "qb_amount": 5000.0,
+      "excel_date": null,
+      "qb_date": "2025-10-23",
+      "excel_invoice_number": null,
+      "qb_invoice_number": "23-0403",
+      "reason": "missing_in_excel"
+    }
+  ],
+  "error": null
+}
