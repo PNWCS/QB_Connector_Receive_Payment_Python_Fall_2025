@@ -22,17 +22,71 @@ To manually run ruff check and auto fix:
 poetry run ruff check --fix
 ```
 
-## Test
+## Execution
+
 Run
 ```bash
-poetry run pytest
+poetry run python -m src.cli --workbook company_data.xlsx
+```
+Build Exe
+```bash
+poetry run pyinstaller --onefile --name payment_terms_cli --hidden-import win32timezone --hidden-import win32com.client build_exe.py
+```
+Run Exe
+```bash
+payment_terms_cli.exe --workbook company_data.xlsx
 ```
 
-## RUN
-poetry run python -m src.cli --workbook company_data.xlsx
-
-# BUILD EXE
-poetry run pyinstaller --onefile --name payment_terms_cli --hidden-import win32timezone --hidden-import win32com.client build_exe.py
-
-# RUN EXE
-payment_terms_cli.exe --workbook company_data.xlsx
+Example JSON
+```bash
+{
+"status": "success",
+"generated_at": "2025-12-03T19:03:24.720086+00:00",
+"same_payments": 12,
+"added_payments": [
+{
+"record_id": 7535,
+"customer_name": "Test1",
+"amount": 946.11,
+"invoice_number": "23-0305",
+"date": "2024-05-10",
+"source": "excel"
+},
+{
+"record_id": 7529,
+"customer_name": "Test1",
+"amount": 1882.26,
+"invoice_number": "23-0305",
+"date": "2024-05-03",
+"source": "excel"
+}
+],
+  "conflicts": [
+    {
+      "record_id": 7536,
+      "excel_name": "NBT Group LTD",
+      "qb_name": "NBT Group LTD",
+      "excel_amount": 936.15,
+      "qb_amount": 936.16,
+      "excel_date": "2024-05-10",
+      "qb_date": "2024-05-11",
+      "excel_invoice_number": "23-0401",
+      "qb_invoice_number": "23-0401",
+      "reason": "data_mismatch"
+    },
+    {
+      "record_id": 12345678,
+      "excel_name": null,
+      "qb_name": "Test3",
+      "excel_amount": null,
+      "qb_amount": 5000.0,
+      "excel_date": null,
+      "qb_date": "2025-10-23",
+      "excel_invoice_number": null,
+      "qb_invoice_number": "23-0403",
+      "reason": "missing_in_excel"
+    }
+  ],
+  "error": null
+}
+```
